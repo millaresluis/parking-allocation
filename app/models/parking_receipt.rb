@@ -1,0 +1,4 @@
+class ParkingReceipt < ApplicationRecord
+
+
+end
