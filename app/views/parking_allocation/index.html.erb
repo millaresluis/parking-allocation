@@ -1,78 +1,95 @@
-<%# entry buttons %>
-<div class="d-flex justify-content-between btn-group mb-3 mx-3 mt-5" role="group">
-    <div class="">
-        <span class="fw-bold me-1">Entry Points:</span>
-        <% @parking_entrances.each do |parking_entrance| %>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_parking_allocation_modal" id="new_parking_allocation_btn" data-modal-title="Entry <%= parking_entrance.id %> <%= parking_entrance.cardinal_direction.capitalize %>">
-                Entry <%= parking_entrance.id %> <%= parking_entrance.cardinal_direction.capitalize %>
-            </button>
-        <%end%>
-    </div>
-    
-    <div>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
-            Add New Vehicle
-        </button>
-    </div>
-</div>
+<div>
+    <div class="d-flex justify-content-between mb-2 mx-3 mt-5" role="group">
 
-
-<div class="d-flex justify-content-between mb-3 mx-3 mt-5">
-    <div>
-        assigned
-    </div>
-    <div>
-        <p class="fw-bold">Unassigned Vehicles:</p> 
-        <div class="">
-            <% @unassigned_vehicles.each do |uv| %>
-                <div>
-                    <%= uv.id %>
-                    <%= uv.plate_number_id %>
+        <div class="col-9">
+            <%if @assigned_vehicles.present?%>
+                <div class="d-flex align-items-center">
+                    <div class="me-2"><span class="fw-bold">Pre-Assigned Vehicles:</span></div> 
+                    <div class="">
+                        <% @assigned_vehicles.each do |uv| %>
+                            <button type="button" class="btn btn-secondary mb-1" id="new_parking_allocation_btn" data-bs-toggle="modal" data-bs-target="#new_parking_allocation_modal" data-modal-title="Plate Number: <%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=uv.vehicle_type%>">
+                                <%= uv.plate_number_id %>
+                            </button>
+                        <%end%>
+                    </div>
                 </div>
             <%end%>
         </div>
-    </div>
-</div>
 
-<div class="">
-    <div class="row justify-content-center mt-3">
-        <div class="col text-center">
-            <h1 class="fs-4 fw-bold">Entry 1 (North)</h6>
+        
+        <div class="">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
+                Add New Vehicle
+            </button>
         </div>
     </div>
 
-    <div class="row mt-3">
-        <div class="col-1 d-flex align-items-center justify-content-end text-end">
-            <h1 class="fs-4 fw-bold">Entry 4 (West)</h6>
-        </div>
 
-        <div class="col text-center">
-            <%# Parking slots container %>
-            <div class="row">
-                <% prev_parking_lot_id = nil %>
-                <% @parking_slots.each do |parking_slot| %>
-                <% parking_slot.id <= 12 ? parking_slot_spacing = "border-bottom-0 mb-3" : parking_slot_spacing = "border-top-0 mt-3" %>
-                <div class="col-1 border <%= parking_slot_spacing %>">
-                    <span><%= parking_slot.id %></span>
-                    <span><%= parking_slot.parking_lot %></span>
-                    <span><%= parking_slot.parking_slot_level %></span>
-                    <span><%= parking_slot.parking_slot_status %></span>
-                </div>
-                <% prev_parking_lot_id = parking_slot.parking_lot %>
-                <% end %>
+    <%# Parking lot layout %>
+    <div>
+        <div class="row justify-content-center mt-3">
+            <div class="col text-center">
+                <h1 class="fs-4 fw-bold">Entry 1 (North)</h1>
+                <i class="bi bi-arrow-down-up"></i>
             </div>
         </div>
 
-        <div class="col-1 d-flex align-items-center">
-            <h1 class="fs-4 fw-bold">Entry 2 (East)</h6>
+        <div class="row mt-3">
+            <div class="col-1 d-flex align-items-center justify-content-end text-end">
+                <h1 class="fs-4 fw-bold text-center">Entry 4 (West)</h1>
+                <i class="bi bi-arrow-left-right"></i>
+            </div>
+
+            <div class="col text-center">
+                <%# Parking slots container %>
+                <div class="row">
+                    <% @parking_slots.each_slice(6).with_index do |row_slots, row_index| %>
+                        <% if row_index == 0 || row_index == 2 %>
+                            <% row_slots.reverse_each do |parking_slot| %>
+                                <% parking_slot.id <= 12 ? parking_slot_spacing = "border-bottom-0 mb-3" : parking_slot_spacing = "border-top-0 mt-3" %>
+                                <% parking_slot.parking_slot_status == "available" ? parking_slot_status = "bg-success" : parking_slot_status = "bg-danger" %>
+                                
+                                <div class="col-1 border <%= parking_slot_spacing %>">
+                                    <p class="mb-2 fw-bold"><%= set_parking_slot_type(parking_slot.parking_slot_level) %></p>
+                                    <p class="mb-2">Parking Lot: <%= parking_slot.parking_lot %></p>
+                                    <span class="badge mb-2 <%= parking_slot_status %>"><%= parking_slot.parking_slot_status.capitalize %></span>
+                                    <button class="btn btn-dark <%=parking_slot.vehicle_id.blank? ? "disabled" : ""%>">Unpark</button>
+                                </div>
+                            <% end %>
+                        <% else %>
+                            <% row_slots.each do |parking_slot| %>
+                                <% parking_slot.id <= 12 ? parking_slot_spacing = "border-bottom-0 mb-3" : parking_slot_spacing = "border-top-0 mt-3" %>
+                                <% parking_slot.parking_slot_status == "available" ? parking_slot_status = "bg-success" : parking_slot_status = "bg-danger" %>
+                                
+                                <div class="col-1 border <%= parking_slot_spacing %>">
+                                    <p class="mb-2 fw-bold"><%= set_parking_slot_type(parking_slot.parking_slot_level) %></p>
+                                    <p class="mb-2">Parking Lot: <%= parking_slot.parking_lot %></p>
+                                    <span class="badge mb-2 <%= parking_slot_status %>"><%= parking_slot.parking_slot_status.capitalize %></span>
+                                    <button class="btn btn-dark <%=parking_slot.vehicle_id.blank? ? "disabled" : ""%>">Unpark</button>
+                                </div>
+                            <% end %>
+                        <% end %>
+                    <% end %>
+                </div>
+
+
+            </div>
+
+            <div class="col-1 d-flex align-items-center">
+                <i class="bi bi-arrow-left-right"></i>
+                <h1 class="fs-4 fw-bold text-center">Entry 2 (East)</h1>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-3">
+            <div class="col text-center">
+                <i class="bi bi-arrow-down-up"></i>
+                <h1 class="fs-4 fw-bold">Entry 3 (South)</h1>
+            </div>
         </div>
     </div>
 
-    <div class="row justify-content-center mt-3">
-        <div class="col text-center">
-            <h1 class="fs-4 fw-bold">Entry 3 (South)</h6>
-        </div>
-    </div>
+    <%= render partial: "vehicle/create_vehicle" %>
+    <%= render partial: "create_parking_allocation" %>
+
 </div>
-
-<%= render partial: "vehicle/create_vehicle" %>

@@ -1652,8 +1652,7 @@
 
 $(document).on( 'turbolinks:load', function () {
 
-    $('.untext').addClass("hehreherh")
-
+    // Vehicle
     $('#vehicle_type').select2({
         theme: 'bootstrap-5',
         tags: false,
@@ -1726,12 +1725,82 @@ $(document).on( 'turbolinks:load', function () {
         $('#new_vehicle_form').formValidation('resetForm', true);
     });
 
+    // Parking Allocation
+    $('#parking_entry_point').select2({
+      theme: 'bootstrap-5',
+      tags: false,
+      placeholder: "Select an Entry Point",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style'
+    });
+
+    $('#new_parking_allocation_form').formValidation({
+      framework: 'bootstrap',
+      icon: {
+        // valid: 'fa fa-check',
+        // invalid: 'fa fa-times',
+        // validating: 'fas fa-sync'
+      },
+      fields: {
+        'parking_allocation[parking_entrance]': {
+          message: 'Entry Point is required',
+          validators: {
+            notEmpty: {
+              message: 'Entry Point is required'
+            }
+  
+          }
+        }
+      }
+    }).on('success.form.fv', function(e) {
+      // Prevent form submission
+      e.preventDefault();
+      $.ajax ({
+          url: String($(this).attr('action')),
+          type: 'post',
+          data:  new FormData(this),
+          contentType: false,
+          cache: false,
+          processData:false,
+          beforeSend: function(data) {
+              $('#submit_btn').attr("disabled", "disabled");
+              $('#submit_btn').addClass("disabled");
+              $('.btn-loading').removeClass('d-none');
+              $('.loading').fadeIn().css("display","inline-block");
+          },
+          success: function(data) {
+              $('#submit_btn').attr("disabled", "disabled");
+              $('#submit_btn').addClass("disabled");
+          },
+          complete: function(data){
+              $('.btn-loading').addClass('d-none');
+              $('.loading').fadeOut().css("display","none");
+              $('#submit_btn').attr("disabled", "disabled");
+              $('#submit_btn').addClass("disabled");
+          },
+          error: function(data) {
+              // code here
+          }
+      });
+    });
+
+    $('#new_parking_allocation_modal').on('hide.bs.modal', function () {
+      $('#parking_entry_point').val(null).trigger('change');
+      $('#new_parking_allocation_form')[0].reset();
+      $('#new_parking_allocation_form').formValidation('resetForm', true);
+    });
+    // new_parking_allocation_modal
+
 
 }); // end turbolinks load
 
-// $(document).on('click','#new_vehicle_btn', function(e){
-//     e.preventDefault();
-//     var modalTitle = $(this).data('modal-title')
-//     $('#new_vehicle_modal_title').text('Add Vehicle • ' + modalTitle)
+$(document).on('click','#new_parking_allocation_btn', function(e){
+    e.preventDefault();
+    var modalTitle = $(this).data('modal-title')
+    var vehicleId = $(this).data('vehicle-id')
+    var vehicleType = $(this).data('vehicle-type')
 
-// });
+    $('#new_parking_allocation_modal_title').text('Assign Vehicle • ' + modalTitle)
+    $('#parking_allocation_vehicle_id').val(vehicleId)
+    $('#parking_allocation_vehicle_type').val(vehicleType)
+
+});
