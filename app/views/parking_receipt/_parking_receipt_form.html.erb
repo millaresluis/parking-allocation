@@ -1,0 +1,67 @@
+<!-- Modal -->
+<%= form_with model: ParkingReceipt.new, url: create_parking_receipt_path, id: "new_parking_receipt_form", local: true, html: { autocomplete: "off" } do |f| %>
+    <%= hidden_field_tag "parking_receipt[vehicle_id]", nil, id: 'receipt_vehicle_id'%>
+    <%= hidden_field_tag "parking_receipt[parking_slot_id]", nil, id: 'receipt_parking_slot_id'%>
+    <%= hidden_field_tag "parking_receipt[datetime_in]", nil, id: 'receipt_datetime_in'%>
+    <%= hidden_field_tag "parking_receipt[datetime_out]", nil, id: 'receipt_datetime_out'%>
+
+    <div class="modal fade" id="new_parking_receipt_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" aria-hidden="true">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="new_parking_receipt_modal_title"></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Plate Number</label>
+                        <%= f.text_field :plate_number, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_plate_number", readonly: true%>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Vehicle Type</label>
+                        <%= f.text_field :vehicle_type, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_vehicle_type", readonly: true%>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Parking Type</label>
+                        <%= f.text_field :vehicle_type, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_parking_slot_type", readonly: true%>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Parking Entry Time</label>
+                        <%= f.text_field :datetime_in_text, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_datetime_in_text", readonly: true%>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Parking Exit Time</label>
+                        <%= f.text_field :datetime_out_text, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_datetime_out_text", readonly: true%>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Total Hours</label>
+                        <%= f.text_field :total_hrs, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_total_hrs", readonly: true%>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label" for="">Total Charge</label>
+                        <div class="input-group">
+                            <div class="input-group-text">₱</div>
+                            <%= f.text_field :total_charge, class: "form-control", autocomplete: "off", placeholder: "", id: "receipt_total_charge", readonly: true%>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-between">
+                    <div class="mb-3 col-8"><span class="fst-italic">Note: 20/hour for vehicles parked in SP; 60/hour for vehicles parked in MP; 100/hour for vehicles parked in LP;</span></div>
+                    <div>
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submit_btn" >Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%end%>

@@ -5,7 +5,8 @@ toastr.options.preventDuplicates = true;
 
 
 <%unless @parking_allocation.errors.any?%>
-    $('#new_parking_allocation_modal').modal('hide');
+    $('#new_park_vehicle_modal').modal('hide');
+    $('#new_exit_vehicle_modal').modal('hide');
 
     toastr.success('Successfully saved!', 'Message')
     setTimeout(function(){
@@ -16,7 +17,7 @@ toastr.options.preventDuplicates = true;
           
 <%else%>
   <%@parking_allocation.errors.full_messages.each do |message|%>
-    toastr.error('<%= parking_allocation %>', 'Error')
+    toastr.error('<%=message %>', 'Error')
   <%end%>
 
   $('.btn-loading').addClass('d-none');
