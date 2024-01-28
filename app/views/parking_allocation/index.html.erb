@@ -2,7 +2,7 @@
 
     <div class="d-flex justify-content-between mb-2 mx-3 mt-5" role="group">
 
-        <div class="col-6">
+        <div class="col-7">
             <%if @assigned_vehicles.present?%>
                 <div class="d-flex align-items-center">
                     <div class="me-2"><span class="fw-bold">Pre-Assigned Vehicles:</span></div> 
@@ -21,7 +21,7 @@
                     <div class="me-2"><span class="fw-bold">Exiting Vehicles:</span></div> 
                     <div class="">
                         <% @exiting_vehicles.each do |uv| %>
-                            <button type="button" class="btn btn-warning mb-1" id="new_parking_receipt_btn" data-bs-toggle="modal" data-bs-target="#new_parking_receipt_modal" data-plate-number="<%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=set_vehicle_type(uv.vehicle_type)%>" data-parking-slot-id="<%= uv.parking_slot_id %>" data-parking-slot-type="<%= set_parking_slot_type(uv.parking_slot_level) %>" data-datetime-in="<%= uv.datetime_in %>" data-datetime-out="<%= uv.datetime_out %>" data-total-hrs="<%= ((uv.datetime_out - uv.datetime_in).to_i / 3600.0).ceil %>" data-datetime-in-text="<%= uv.datetime_in.strftime("%A, %B %e, %Y %I:%M%p") %>" data-datetime-out-text="<%= uv.datetime_out.strftime("%A, %B %e, %Y %I:%M%p") %>" data-total-charge="<%= set_receipt_total_charge(uv.parking_slot_level, ((uv.datetime_out - uv.datetime_in).to_i / 3600.0).ceil) %>">
+                            <button type="button" class="btn btn-warning mb-1" id="exiting_vehicle_btn" data-bs-toggle="modal" data-bs-target="#return_vehicle_modal" data-plate-number="<%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=set_vehicle_type(uv.vehicle_type)%>" data-parking-slot-id="<%= uv.parking_slot_id %>" data-parking-slot-type="<%= set_parking_slot_type(uv.parking_slot_level) %>" data-datetime-in="<%= uv.datetime_in %>" data-datetime-out="<%= uv.datetime_out %>" data-total-hrs="<%= ((uv.datetime_out - uv.datetime_in).to_i / 3600.0).ceil %>" data-datetime-in-text="<%= set_datetime_format(uv.datetime_in) %>" data-datetime-out-text="<%= set_datetime_format(uv.datetime_out) %>" data-total-charge="<%= set_receipt_total_charge(uv.parking_slot_level, ((uv.datetime_out - uv.datetime_in).to_i / 3600.0).ceil) %>">
                                 <%= uv.plate_number_id %>
                             </button>
                         <%end%>
@@ -56,6 +56,7 @@
     <%= render partial: "vehicle/create_vehicle" %>
     <%= render partial: "park_vehicle_form" %>
     <%= render partial: "exit_vehicle_form" %>
+    <%= render partial: "return_vehicle_form" %>
     <%= render partial: "parking_receipt/parking_receipt_form" %>
 
 </div>

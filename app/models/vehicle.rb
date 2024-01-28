@@ -13,7 +13,7 @@ class Vehicle < ApplicationRecord
             LEFT JOIN
                 parking_slots ps ON ps.id = pa.parking_slot_id
             WHERE
-                v.vehicle_status = 'exiting' AND v.status = 'active' AND pa.parking_type = 1  
+                v.vehicle_status = 'exiting' AND v.status = 'active' AND pa.status = 'active' AND pa.parking_type = 1  
         ")
     end
 end

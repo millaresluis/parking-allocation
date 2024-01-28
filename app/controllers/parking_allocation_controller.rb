@@ -47,9 +47,15 @@ class ParkingAllocationController < ApplicationController
 
     end
 
+    def update
+        @vehicle = Vehicle.where(id: params[:parking_allocation][:vehicle_id], status: 'active').update(vehicle_status: 'parked')
+        @parking_allocation = ParkingAllocation.find_by(vehicle_id: params[:parking_allocation][:vehicle_id], parking_slot_id: params[:parking_allocation][:parking_slot_id], parking_type: "1", status: 'active').update(status: "inactive")
+    end
+
     private
 
     def parking_allocation_params
         params.require(:parking_allocation).permit(:id, :vehicle_id, :parking_slot_id, :parking_type, :datetime, :parking_entry_point, :status)
     end
+
 end

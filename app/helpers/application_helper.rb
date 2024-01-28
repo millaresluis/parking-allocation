@@ -34,6 +34,10 @@ module ApplicationHelper
         end
     end
 
+    def set_datetime_format(datetime)
+        return datetime.strftime("%A, %B %e, %Y %I:%M %p")
+    end
+
 
     def set_receipt_total_charge(parking_slot_level, hours)
         flat_rate = 40
