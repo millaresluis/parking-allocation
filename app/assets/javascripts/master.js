@@ -142,7 +142,7 @@ $(document).on( 'turbolinks:load', function () {
       $('#new_park_vehicle_form').formValidation('resetForm', true);
     });
 
-    $('#new_parking_receipt_form').formValidation({
+    $('#return_vehicle_form, #new_exit_vehicle_form, #new_parking_receipt_form').formValidation({
       framework: 'bootstrap',
       icon: {
         // valid: 'fa fa-check',
@@ -183,7 +183,7 @@ $(document).on( 'turbolinks:load', function () {
       });
     });
 
-    $('#new_exit_vehicle_form').formValidation({
+    $('#update_entry_point_form').formValidation({
       framework: 'bootstrap',
       icon: {
         // valid: 'fa fa-check',
@@ -191,6 +191,15 @@ $(document).on( 'turbolinks:load', function () {
         // validating: 'fas fa-sync'
       },
       fields: {
+        'parking_allocation[parking_entrance]': {
+          message: 'Entry Point is required',
+          validators: {
+            notEmpty: {
+              message: 'Entry Point is required'
+            }
+  
+          }
+        }
       }
     }).on('success.form.fv', function(e) {
       // Prevent form submission
@@ -224,45 +233,18 @@ $(document).on( 'turbolinks:load', function () {
       });
     });
 
-    $('#return_vehicle_form').formValidation({
-      framework: 'bootstrap',
-      icon: {
-        // valid: 'fa fa-check',
-        // invalid: 'fa fa-times',
-        // validating: 'fas fa-sync'
-      },
-      fields: {
-      }
-    }).on('success.form.fv', function(e) {
-      // Prevent form submission
-      e.preventDefault();
-      $.ajax ({
-          url: String($(this).attr('action')),
-          type: 'post',
-          data:  new FormData(this),
-          contentType: false,
-          cache: false,
-          processData:false,
-          beforeSend: function(data) {
-              $('#submit_btn').attr("disabled", "disabled");
-              $('#submit_btn').addClass("disabled");
-              $('.btn-loading').removeClass('d-none');
-              $('.loading').fadeIn().css("display","inline-block");
-          },
-          success: function(data) {
-              $('#submit_btn').attr("disabled", "disabled");
-              $('#submit_btn').addClass("disabled");
-          },
-          complete: function(data){
-              $('.btn-loading').addClass('d-none');
-              $('.loading').fadeOut().css("display","none");
-              $('#submit_btn').attr("disabled", "disabled");
-              $('#submit_btn').addClass("disabled");
-          },
-          error: function(data) {
-              // code here
-          }
-      });
+    $('#parking_entry_point_direction').select2({
+      theme: 'bootstrap-5',
+      tags: false,
+      placeholder: "Select an Entry Point",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style'
+    });
+
+    $('#parking_entry_point_status').select2({
+      theme: 'bootstrap-5',
+      tags: false,
+      placeholder: "Select a Status",
+      width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style'
     });
 
 

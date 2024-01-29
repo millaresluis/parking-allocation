@@ -49,7 +49,11 @@ class ParkingAllocationController < ApplicationController
 
     def update
         @vehicle = Vehicle.where(id: params[:parking_allocation][:vehicle_id], status: 'active').update(vehicle_status: 'parked')
-        @parking_allocation = ParkingAllocation.find_by(vehicle_id: params[:parking_allocation][:vehicle_id], parking_slot_id: params[:parking_allocation][:parking_slot_id], parking_type: "1", status: 'active').update(status: "inactive")
+        @parking_allocation = ParkingAllocation.where(vehicle_id: params[:parking_allocation][:vehicle_id], parking_slot_id: params[:parking_allocation][:parking_slot_id], parking_type: "1", status: 'active').update(status: "inactive")
+    end
+
+    def update_entry_point
+        @parking_entry_point = ParkingEntryPoint.where(id: params[:parking_entry_point][:id], status: "active").update(status: params[:parking_entry_point][:vehicle_status])
     end
 
     private
