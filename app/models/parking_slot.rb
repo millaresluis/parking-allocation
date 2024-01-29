@@ -12,6 +12,7 @@ class ParkingSlot < ApplicationRecord
                 pa.datetime,
                 v.plate_number_id,
                 v.vehicle_type,
+                v.vehicle_status,
                 (SELECT COUNT(pa.id) FROM parking_allocations pa WHERE pa.parking_slot_id = ps.id AND pa.status = 'active') as parking_count
             FROM
                 parking_slots ps

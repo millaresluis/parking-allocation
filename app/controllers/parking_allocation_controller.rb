@@ -1,10 +1,12 @@
 class ParkingAllocationController < ApplicationController
 
     include ApplicationHelper
+    
     def index
         @title = "Parking Allocation"
         @parking_slots = ParkingSlot.get_parking_slots()
-        @parking_entry_points = ParkingEntryPoint.where(status: 'active')
+        @parking_entry_points = ParkingEntryPoint.all
+        @active_parking_entry_points = ParkingEntryPoint.where(status: 'active')
         @total_vehicles = Vehicle.where(status: 'active')
         @assigned_vehicles = Vehicle.where(vehicle_status: 'assigned', status: 'active')
         @parked_vehicles = Vehicle.where(vehicle_status: 'parked', status: 'active')
@@ -14,52 +16,86 @@ class ParkingAllocationController < ApplicationController
 
     def create
         @parking_allocation = ParkingAllocation.new(parking_allocation_params)
-
-        # Find available parking slot or if the vehicle is parked already
         vehicle_id = params[:parking_allocation][:vehicle_id]
         vehicle_type = params[:parking_allocation][:vehicle_type]
         parking_entry_point = params[:parking_allocation][:parking_entry_point]
 
-        parking_slot_id = ParkingAllocation.find_available_parking_slot(vehicle_type, parking_entry_point, set_parking_lot_order(parking_entry_point.to_i))
-        parked_vehicle_checker = ParkingAllocation.where(vehicle_id: vehicle_id, status: 'active').first
+        # Find available parking slot
+        available_parking_slot_id = ParkingAllocation.find_available_parking_slot(vehicle_type, parking_entry_point, set_parking_lot_order(parking_entry_point.to_i)) if parking_entry_point.present?
+
+        # Check if the vehicle is parked already
+        parked_vehicle_checker = set_parking_allocation(vehicle_id).first
 
         # Update the status of vehicle and parking slot
-        vehicle = Vehicle.where(id: vehicle_id, status: 'active')
-        parking_slot = ParkingSlot.where(id: parking_slot_id, status: 'active')
-        @parking_allocation.datetime = DateTime.now.strftime("%Y-%m-%d %H:%M:%S") # Set the clock in/out of the vehicle in the parking complex
+        set_vehicle(vehicle_id)
+        set_parking_allocation(vehicle_id)
+        @parking_allocation.datetime = DateTime.now.strftime("%Y-%m-%d %H:%M:%S")
 
         if parked_vehicle_checker.blank? 
-            if parking_slot_id.present?
+            if available_parking_slot_id.present?
+                set_parking_slot(available_parking_slot_id)
                 @parking_allocation.parking_type = 0
-                @parking_allocation.parking_slot_id = parking_slot_id.id
-                vehicle.update(vehicle_status: 'parked')
-                parking_slot.update(parking_slot_status: 'occupied')
+                @parking_allocation.parking_slot_id = available_parking_slot_id
+                @vehicle.update(vehicle_status: 'parked')
+                @parking_slot.update(parking_slot_status: 'occupied')
             else
                 @parking_allocation.errors.add(:base, "No available parking slot.")
             end
         else
+            set_parking_slot(params[:parking_allocation][:parking_slot_id])
             @parking_allocation.parking_type = 1
-            vehicle.update(vehicle_status: 'exiting')
+            @parking_allocation.status = 'inactive'
+            @vehicle.update(vehicle_status: 'departed')
+            @parking_slot.update(parking_slot_status: 'available')
+            @parking_allocations.update(status: 'inactive')
+
+            # Handle receipt data
+            datetime_in = params[:parking_receipt][:datetime_in]
+            datetime_out = params[:parking_receipt][:datetime_out]
+            parking_slot_type = params[:parking_receipt][:parking_slot_type]
+            @parking_receipt = ParkingReceipt.new(parking_receipt_params)
+            datetime_in = datetime_in.to_time
+            datetime_out = DateTime.parse(datetime_out).strftime("%Y-%m-%d %H:%M:%S").to_time
+            parking_slot_level = parking_slot_type
+            total_hrs = ((datetime_out - datetime_in).to_i / 3600.0).ceil
+            
+            # Create parking receipt
+            @parking_receipt.total_hrs = total_hrs
+            @parking_receipt.total_charge = set_receipt_total_charge(parking_slot_level.to_i, total_hrs.to_i)
+            @parking_receipt.save if !@parking_receipt.errors.any?
+            
         end
 
-        # Save the instance
+        # Save parking allocation
         @parking_allocation.save if !@parking_allocation.errors.any?
-
     end
 
     def update
-        @vehicle = Vehicle.where(id: params[:parking_allocation][:vehicle_id], status: 'active').update(vehicle_status: 'parked')
-        @parking_allocation = ParkingAllocation.where(vehicle_id: params[:parking_allocation][:vehicle_id], parking_slot_id: params[:parking_allocation][:parking_slot_id], parking_type: "1", status: 'active').update(status: "inactive")
+        set_vehicle(params[:parking_allocation][:vehicle_id])
+        @vehicle.update(vehicle_status: params[:parking_allocation][:vehicle_status])
     end
 
-    def update_entry_point
-        @parking_entry_point = ParkingEntryPoint.where(id: params[:parking_entry_point][:id], status: "active").update(status: params[:parking_entry_point][:vehicle_status])
-    end
 
     private
 
     def parking_allocation_params
         params.require(:parking_allocation).permit(:id, :vehicle_id, :parking_slot_id, :parking_type, :datetime, :parking_entry_point, :status)
+    end
+
+    def parking_receipt_params
+        params.require(:parking_receipt).permit(:id, :vehicle_id, :parking_slot_id, :datetime_in, :datetime_out, :status)
+    end
+
+    def set_vehicle(vehicle_id)
+        @vehicle = Vehicle.where(id: vehicle_id, status: 'active')
+    end
+
+    def set_parking_slot(parking_slot_id)
+        @parking_slot = ParkingSlot.where(id: parking_slot_id, status: 'active')
+    end
+
+    def set_parking_allocation(vehicle_id)
+        @parking_allocations = ParkingAllocation.where(vehicle_id: vehicle_id, status: 'active')
     end
 
 end

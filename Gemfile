@@ -31,6 +31,8 @@ gem 'jbuilder', '~> 2.5'
 # gem 'bcrypt', '~> 3.1.7'
 gem 'jquery-rails'
 gem 'bootstrap', '5.2'
+gem 'momentjs-rails', '~> 2.9'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

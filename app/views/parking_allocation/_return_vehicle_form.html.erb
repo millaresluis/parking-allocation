@@ -1,15 +1,16 @@
 <%= form_with model: ParkingAllocation.new, url: update_parking_allocation_path, id: "return_vehicle_form", local: true, html: { autocomplete: "off" } do |f| %>
-    <%= hidden_field_tag "parking_allocation[vehicle_id]", nil, class: 'receipt_vehicle_id'%>
-    <%= hidden_field_tag "parking_allocation[parking_slot_id]", nil, class: 'receipt_parking_slot_id'%>
+    <%= hidden_field_tag "parking_allocation[vehicle_id]", nil, id: 'return_vehicle_id'%>
+    <%= hidden_field_tag "parking_allocation[vehicle_status]", "parked", id: 'return_vehicle_status'%>
+    <%= hidden_field_tag "parking_allocation[parking_slot_id]", nil, id: 'return_parking_slot_id'%>
 
     <div class="modal fade" id="return_vehicle_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" aria-hidden="true">
             <div class="modal-content">
 
                 <div class="modal-header justify-content-between">
-                    <div><h1 class="modal-title fs-5" id="return_vehicle_modal_title"></h1></div>
+                    <div><h1 class="modal-title fs-5" id="return_vehicle_modal_title">Return to Parking Complex</h1></div>
                     <div>
-                        <button type="button" class="btn btn-primary" data-bs-target="#new_parking_receipt_modal" data-bs-toggle="modal">Leave Parking Complex</button>
+                        <button type="button" class="btn btn-primary" data-bs-target="#new_unpark_vehicle_modal" data-bs-toggle="modal">Leave Parking Complex</button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>

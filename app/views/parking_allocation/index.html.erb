@@ -1,24 +1,18 @@
 <div>
+    <div class="d-flex justify-content-end mb-2 mx-3 mt-5" role="group">
+        <div class="me-2">
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#update_entry_point_modal" id="">
+                Set Entry Points
+            </button>
+        </div>
 
-    <div class="d-flex justify-content-between">
-        <div><h1>Object-Oriented Mall</h1></div>
-
-        <div class="d-flex justify-content-end mb-2 mx-3 mt-5" role="group">
-            <div class="me-2">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#update_entry_point_modal" id="">
-                    Set Entry Points
-                </button>
-            </div>
-
-            <div>
-                <button type="button" class="btn btn-primary <%= @total_vehicles.count == @parking_slots.count ? "disabled" : "" %>" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
-                    Add New Vehicle
-                </button>
-            </div>
+        <div>
+            <button type="button" class="btn btn-primary <%= @total_vehicles.count == @parking_slots.count ? "disabled" : "" %>" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
+                Add New Vehicle
+            </button>
         </div>
     </div>
     
-
     <%# Parking lot layout %>
     <%= render partial: "parking_lot_layout" %>
 
@@ -54,7 +48,7 @@
                 <div class="me-2"><span class="fw-bold">Exiting Vehicles:</span></div> 
                 <div class="">
                     <% @exiting_vehicles.each do |uv| %>
-                        <button type="button" class="btn btn-warning mb-1" id="exiting_vehicle_btn" data-bs-toggle="modal" data-bs-target="#return_vehicle_modal" data-plate-number="<%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=set_vehicle_type(uv.vehicle_type)%>" data-parking-slot-id="<%= uv.parking_slot_id %>" data-parking-slot-type="<%= set_parking_slot_type(uv.parking_slot_level) %>" data-datetime-in="<%= uv.datetime_in %>" data-datetime-out="<%= uv.datetime_out %>" data-total-hrs="<%= ((uv.datetime_out - uv.datetime_in).to_i / 3600.0).ceil %>" data-datetime-in-text="<%= set_datetime_format(uv.datetime_in) %>" data-datetime-out-text="<%= set_datetime_format(uv.datetime_out) %>" data-total-charge="<%= set_receipt_total_charge(uv.parking_slot_level, ((uv.datetime_out - uv.datetime_in).to_i / 3600.0).ceil) %>">
+                        <button type="button" class="btn btn-warning mb-1" id="exiting_vehicle_btn" data-bs-toggle="modal" data-bs-target="#return_vehicle_modal" data-plate-number="<%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=uv.vehicle_type%>" data-vehicle-type-text="<%=set_vehicle_type(uv.vehicle_type)%>" data-parking-slot-id="<%= uv.parking_slot_id %>" data-parking-entry-point="<%=uv.parking_entry_point%>"  data-parking-slot-type="<%= uv.parking_slot_level %>" data-parking-slot-type-text="<%= set_parking_slot_type(uv.parking_slot_level) %>" data-datetime-in="<%= uv.datetime_in %>" data-datetime-out="<%= DateTime.now.strftime("%Y-%m-%d %H:%M:%S") %>" data-datetime-in-text="<%= set_datetime_format(uv.datetime_in) %>" data-datetime-out-text="<%= set_datetime_format(DateTime.now) %>">
                             <%= uv.plate_number_id %>
                         </button>
                     <%end%>
@@ -68,7 +62,7 @@
     <%= render partial: "park_vehicle_form" %>
     <%= render partial: "exit_vehicle_form" %>
     <%= render partial: "return_vehicle_form" %>
-    <%= render partial: "entry_point_form" %>
-    <%= render partial: "parking_receipt/parking_receipt_form" %>
+    <%= render partial: "unpark_vehicle_form" %>
+    <%= render partial: "parking_entry_point/entry_point_form" %>
 
 </div>

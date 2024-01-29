@@ -142,7 +142,7 @@ $(document).on( 'turbolinks:load', function () {
       $('#new_park_vehicle_form').formValidation('resetForm', true);
     });
 
-    $('#return_vehicle_form, #new_exit_vehicle_form, #new_parking_receipt_form').formValidation({
+    $('#return_vehicle_form, #new_exit_vehicle_form, #new_unpark_vehicle_form').formValidation({
       framework: 'bootstrap',
       icon: {
         // valid: 'fa fa-check',
@@ -247,6 +247,18 @@ $(document).on( 'turbolinks:load', function () {
       width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style'
     });
 
+    $('#unpark_datetime_out_text').datetimepicker({
+      format: 'LLLL',
+      inline: true,
+      sideBySide: true,
+      icons: {
+          previous: 'bi bi-chevron-compact-left',
+          next: 'bi bi-chevron-compact-right',
+          up: 'bi bi-chevron-up',
+          down: 'bi bi-chevron-down'
+      }
+    })
+
 
 }); // end turbolinks load
 
@@ -268,19 +280,11 @@ $(document).on('click','#new_exit_vehicle_btn', function(e){
     e.preventDefault();
     var modalTitle = $(this).data('modal-title')
     var vehicleId = $(this).data('vehicle-id')
-    var vehicleType = $(this).data('vehicle-type')
-    var parkingSlotId = $(this).data('parking-slot-id')
-    var parkingEntryPoint = $(this).data('parking-entry-point')
     var parkingDatetimeIn = $(this).data('datetime-in')
-    var parkingDatetimeOut = $(this).data('datetime-out')
 
     $('#new_exit_vehicle_modal_title').text('Exit Parking Slot • ' + modalTitle)
-    $('#unpark_vehicle_id').val(vehicleId)
-    $('#unpark_vehicle_type').val(vehicleType)
-    $('#parking_allocation_parking_slot_id').val(parkingSlotId)
-    $('#parking_allocation_parking_entry_point').val(parkingEntryPoint)
+    $('#exit_vehicle_id').val(vehicleId)
     $('#parking_allocation_datetime_in').val(parkingDatetimeIn)
-    $('#parking_allocation_datetime_out').val(parkingDatetimeOut)
 
 });
 
@@ -289,28 +293,27 @@ $(document).on('click','#exiting_vehicle_btn', function(e){
     var plateNumber = $(this).data('plate-number')
     var vehicleId = $(this).data('vehicle-id')
     var vehicleType = $(this).data('vehicle-type')
+    var vehicleTypeText = $(this).data('vehicle-type-text')
     var parkingSlotId = $(this).data('parking-slot-id')
     var parkingSlotType = $(this).data('parking-slot-type')
+    var parkingSlotTypeText = $(this).data('parking-slot-type-text')
+    var parkingEntryPoint = $(this).data('parking-entry-point')
     var parkingDatetimeIn = $(this).data('datetime-in')
     var parkingDatetimeOut = $(this).data('datetime-out')
     var parkingDatetimeInText = $(this).data('datetime-in-text')
-    var parkingDatetimeOutText = $(this).data('datetime-out-text')
-    var totalHrs = $(this).data('total-hrs')
-    var totalCharge = $(this).data('total-charge')
 
-    $('#new_parking_receipt_modal_title').text('Leave Parking Complex • Plate Number: ' +  plateNumber)
-    $('#return_vehicle_modal_title').text('Return to Parking Complex • Plate Number: ' +  plateNumber)
+    $('#new_unpark_vehicle_modal_title').text('Leave Parking Complex • Plate Number: ' +  plateNumber)
     $('.receipt_plate_number').val(plateNumber)
-    $('.receipt_vehicle_id').val(vehicleId)
-    $('#receipt_vehicle_type').val(vehicleType)
-    $('.receipt_parking_slot_id').val(parkingSlotId)
+    $('#receipt_vehicle_id, #unpark_vehicle_id, #return_vehicle_id').val(vehicleId)
+    $('#receipt_parking_slot_id, #unpark_parking_slot_id').val(parkingSlotId)
+    $('#receipt_datetime_in, #unpark_datetime_in').val(parkingDatetimeIn)
+    $('#receipt_datetime_out, #unpark_datetime_out').val(parkingDatetimeOut)
+    $('#unpark_vehicle_type').val(vehicleType)
+    $('#unpark_vehicle_type_text').val(vehicleTypeText)
     $('#receipt_parking_slot_type').val(parkingSlotType)
-    $('#receipt_datetime_in').val(parkingDatetimeIn)
-    $('#receipt_datetime_out').val(parkingDatetimeOut)
-    $('#receipt_datetime_in_text').val(parkingDatetimeInText)
-    $('#receipt_datetime_out_text').val(parkingDatetimeOutText)
-    $('#receipt_total_hrs').val(totalHrs)
-    $('#receipt_total_charge').val(totalCharge)
+    $('#unpark_parking_slot_type_text').val(parkingSlotTypeText)
+    $('#unpark_parking_entry_point').val(parkingEntryPoint)
+    $('#unpark_datetime_in_text').val(parkingDatetimeInText)
 
 });
 

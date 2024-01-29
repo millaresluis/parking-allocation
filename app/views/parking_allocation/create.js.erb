@@ -6,8 +6,7 @@ toastr.options.preventDuplicates = true;
 
 <%unless @parking_allocation.errors.any?%>
     $('#new_park_vehicle_modal').modal('hide');
-    $('#new_exit_vehicle_modal').modal('hide');
-
+    
     toastr.success('Successfully saved!', 'Message')
     setTimeout(function(){
         toastr.clear();
