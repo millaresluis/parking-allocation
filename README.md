@@ -24,6 +24,7 @@ Before running the application, you need to set up the MySQL database using the 
 ```bash
 $ git clone https://github.com/millaresluis/parking-allocation-system.git
 $ cd parking-allocation-system
+$ gem install bundler -v 2.2.3
 $ bundle install
 $ rails s (please read note before running the server)
 ```
