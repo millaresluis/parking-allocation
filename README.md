@@ -12,7 +12,7 @@
 
 Before running the application, you need to set up the MySQL database using the exported schema. Follow these steps:
 
-1. Download the schema exported from MySQL Workbench https://drive.google.com/file/d/1YSKrhthiidkSWvZ7JU0IlQBovRjrctAV/view?usp=sharing
+1. Download the exported schema: https://drive.google.com/file/d/1YSKrhthiidkSWvZ7JU0IlQBovRjrctAV/view?usp=sharing
 2. Open MySQL Workbench.
 3. Connect to your MySQL server.
 4. Select the database you want to use for the parking allocation system.
