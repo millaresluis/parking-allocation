@@ -1,7 +1,4 @@
 class ParkingReceiptController < ApplicationController
-    def index
-        @title = "Parking Receipts"
-    end
 
     def get_parking_receipt
         @title = "Receipt"

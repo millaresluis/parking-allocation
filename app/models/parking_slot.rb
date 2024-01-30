@@ -1,8 +1,6 @@
 class ParkingSlot < ApplicationRecord
 
     def self.get_parking_slots
-        ParkingSlot.where(status: 'active').order("FIELD(parking_lot,1,2,4,3)")
-
         ParkingSlot.find_by_sql("
             SELECT
                 ps.*,
