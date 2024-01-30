@@ -249,7 +249,6 @@ $(document).on( 'turbolinks:load', function () {
 
     $('#unpark_datetime_out_text').datetimepicker({
       format: 'LLLL',
-      inline: true,
       sideBySide: true,
       icons: {
           previous: 'bi bi-chevron-compact-left',

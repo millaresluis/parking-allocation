@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-
+  root 'parking_allocation#index'
   # Parking Allocation
   get 'parking-allocation', to: 'parking_allocation#index', as: :parking_allocation
   post 'parking-allocation/create', to: 'parking_allocation#create', as: :create_parking_allocation
@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   post 'vehicle/create', to: 'vehicle#create', as: :create_vehicle
 
   # Parking Receipt
-  # post 'parking-receipt/create', to: 'parking_receipt#create', as: :create_parking_receipt
+  get 'parking-receipt', to: 'parking_receipt#index', as: :parking_receipt
+  get 'parking-receipt/get-parking-receipt', to: 'parking_receipt#get_parking_receipt', as: :get_parking_receipt
 end
