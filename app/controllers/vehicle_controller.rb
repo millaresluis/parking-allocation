@@ -1,9 +1,5 @@
 class VehicleController < ApplicationController
 
-  def index
-    @title = ""
-  end
-
   def create
     @vehicle = Vehicle.new(vehicle_params)
     @vehicle.save if !@vehicle.errors.any?

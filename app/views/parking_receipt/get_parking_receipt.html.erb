@@ -1,0 +1,88 @@
+<%@parking_receipt.each do |pr|%>
+    <div class="card mt-5">
+        <div class="card-body mx-4">
+            <div class="container">
+                <h1 class="my-3">Thank you</h1>
+                <div class="row">
+                    <ul class="list-unstyled">
+                        <li class="text-black">Juan Dela Cruz</li>
+                        <li class="text-muted mt-1"><span class="text-black">Invoice</span> #<%=pr.id%></li>
+                        <li class="text-black mt-1"><%=pr.created_at.strftime("%B %e, %Y")%></li>
+                    </ul>
+                    <hr>
+                    <div class="col-xl-8">
+                        <p>Vehicle Plate Number</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=pr.plate_number_id%></p>
+                    </div>
+
+                    <div class="col-xl-8">
+                        <p>Vehicle Type</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=set_vehicle_type(pr.vehicle_type)%></p>
+                    </div>
+                    <hr>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <p>Parking Entry Time</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=set_datetime_format(pr.datetime_in)%></p>
+                    </div>
+                    <div class="col-xl-8">
+                        <p>Parking Exit Time</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=set_datetime_format(pr.datetime_out)%></p>
+                    </div>
+
+                    <div class="col-xl-8">
+                        <p>Parking Type</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=set_parking_slot_type(pr.parking_slot_level)%></p>
+                    </div>
+
+                    <hr>
+                </div>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <p>Flat Rate (First 3 Hours)</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end">₱40</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <p>Exceeded Hours</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=pr.total_hrs.to_i - 3%></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-8">
+                        <p>Total Hours</p>
+                    </div>
+                    <div class="col-xl-4">
+                        <p class="float-end"><%=pr.total_hrs%></p>
+                    </div>
+                    <hr>
+                </div>
+                <div class="row text-black">
+                    <div class="col-xl-12">
+                        <p class="float-end fw-bold">Total: ₱<%=pr.total_charge%></p>
+                    </div>
+                    <hr style="border: 2px solid black;">
+                </div>
+
+                <div class="d-flex justify-content-center"><%=link_to "Return to Parking Allocation", parking_allocation_path %> </div>  
+            </div>
+        </div>
+    </div>
+<%end%>

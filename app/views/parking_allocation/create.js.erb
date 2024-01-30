@@ -1,0 +1,29 @@
+toastr.options.closeButton = true;
+toastr.options.timeOut = 9000;
+toastr.options.newestOnTop = true;
+toastr.options.preventDuplicates = true;
+
+
+<%unless @parking_allocation.errors.any?%>
+    $('#new_park_vehicle_modal').modal('hide');
+    $('#new_unpark_vehicle_modal').modal('hide');
+    
+    toastr.success('Successfully saved!', 'Message')
+    setTimeout(function(){
+        toastr.clear();
+        Turbolinks.clearCache();
+        Turbolinks.visit("<%=parking_allocation_path()%>");
+      },1500);
+          
+<%else%>
+  <%@parking_allocation.errors.full_messages.each do |message|%>
+    toastr.error('<%=message %>', 'Error')
+  <%end%>
+
+  $('.btn-loading').addClass('d-none');
+  $('.loading').fadeOut().css("display","none");  
+
+  $("#submit_btn").removeAttr("disabled").removeClass("disabled");
+  $("#submit_btn").removeClass("disabled");
+
+<%end%>

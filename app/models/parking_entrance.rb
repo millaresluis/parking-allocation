@@ -1,4 +1,0 @@
-class ParkingEntrance < ApplicationRecord
-
-
-end

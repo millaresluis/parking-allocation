@@ -1,0 +1,14 @@
+toastr.options.closeButton = true;
+toastr.options.timeOut = 9000;
+toastr.options.newestOnTop = true;
+toastr.options.preventDuplicates = true;
+
+$('#new_exit_vehicle_modal').modal('hide');
+$('#return_vehicle_modal').modal('hide');
+
+toastr.success('Successfully saved!', 'Message')
+setTimeout(function(){
+    toastr.clear();
+    Turbolinks.clearCache();
+    Turbolinks.visit("<%=parking_allocation_path()%>");
+    },1500);

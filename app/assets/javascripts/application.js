@@ -19,6 +19,8 @@
 //= require formvalidation.bootstrap
 //= require select2
 //= require toastr
+//= require moment
+//= require bootstrap-datetimepicker
 //= require master
 //= require_tree .
 
