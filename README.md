@@ -18,6 +18,7 @@ Before running the application, you need to set up the MySQL database using the 
 4. Select the database you want to use for the parking allocation system.
 5. Go to `Server` > `Data Import` in MySQL Workbench.
 6. Choose the folder that contains the downloaded sql files (`files.sql`)
+7. Start import.
 
 ## Installation 
 ```bash
