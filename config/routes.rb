@@ -13,5 +13,6 @@ Rails.application.routes.draw do
   post 'vehicle/create', to: 'vehicle#create', as: :create_vehicle
 
   # Parking Receipt
+  get 'parking-receipt/create', to: 'parking_receipt#create', as: :create_parking_receipt
   get 'parking-receipt/get-parking-receipt', to: 'parking_receipt#get_parking_receipt', as: :get_parking_receipt
 end
