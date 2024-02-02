@@ -7,7 +7,7 @@
         </div>
 
         <div>
-            <button type="button" class="btn btn-primary <%= @total_vehicles.count == @parking_slots.count ? "disabled" : "" %>" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
+            <button type="button" class="btn btn-primary <%= @total_vehicles.count >= @parking_slots.count ? "disabled" : "" %>" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
                 Add New Vehicle
             </button>
         </div>

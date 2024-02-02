@@ -21,19 +21,6 @@ module ApplicationHelper
         end
     end
 
-    def set_parking_lot_order(entry_point)
-        case entry_point
-        when 1
-            "FIELD(parking_lot, 1, 2, 3, 4)"
-        when 2
-            "FIELD(parking_lot, 2, 3, 4, 1)"
-        when 3
-            "FIELD(parking_lot, 3, 4, 2, 1)"
-        else
-            "FIELD(parking_lot, 4, 1, 2, 3)"
-        end
-    end
-
     def set_datetime_format(datetime)
         return datetime.strftime("%A, %B %e, %Y %I:%M %p")
     end
@@ -65,4 +52,38 @@ module ApplicationHelper
         return total_charge
 
     end
+
+    def parking_slot_border(id)
+        case id
+        when 1..6
+          "border-bottom-0 mb-5"
+        when 7..12
+          "border-top-0 border-bottom-0 mb-5"
+        else
+          "border-top-0"
+        end
+    end      
+
+    def parking_slot_badge_status(status)
+
+        if status == "available"
+            parking_slot_status = "bg-success"
+        else
+            parking_slot_status = "bg-danger"
+        end
+
+        return parking_slot_status
+    end
+
+    def set_parking_slot_order(entry_point)
+        case entry_point
+        when 1
+            "FIELD(parking_slot_level, 1, 2, 3)"
+        when 2
+            "FIELD(parking_slot_level, 2, 3, 1)"
+        else
+            "FIELD(parking_slot_level, 3, 1, 2)"
+        end
+    end
+
 end

@@ -5,8 +5,7 @@ class ParkingAllocationController < ApplicationController
     def index
         @title = "Parking Allocation"
         @parking_slots = ParkingSlot.get_parking_slots()
-        @parking_entry_points = ParkingEntryPoint.all
-        @active_parking_entry_points = ParkingEntryPoint.where(status: 'active')
+        @parking_entry_points = ParkingEntryPoint.where(status: 'active')
         @total_vehicles = Vehicle.where(status: 'active')
         @assigned_vehicles = Vehicle.where(vehicle_status: 'assigned', status: 'active')
         @parked_vehicles = Vehicle.where(vehicle_status: 'parked', status: 'active')
@@ -21,7 +20,7 @@ class ParkingAllocationController < ApplicationController
         vehicle_id = params[:parking_allocation][:vehicle_id]
         vehicle_type = params[:parking_allocation][:vehicle_type]
         parking_entry_point = params[:parking_allocation][:parking_entry_point]
-        available_parking_slot_id = ParkingAllocation.find_available_parking_slot(vehicle_type, parking_entry_point, set_parking_lot_order(parking_entry_point.to_i)) if parking_entry_point.present?
+        available_parking_slot_id = ParkingAllocation.find_available_parking_slot(vehicle_type, parking_entry_point) if parking_entry_point.present?
 
         # Check if the vehicle is parked already
         parked_vehicle_checker = set_parking_allocation(vehicle_id).first

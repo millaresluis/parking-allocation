@@ -20,8 +20,7 @@ class ParkingSlot < ApplicationRecord
                 vehicles v ON v.id = pa.vehicle_id AND v.status = 'active'
             WHERE
                 ps.status = 'active' AND (pa.parking_type = 0 OR pa.parking_type IS NULL)
-            ORDER BY
-                FIELD(parking_lot, 1, 2, 4, 3), ps.id ASC, parking_slot_level ASC
+            ORDER BY ps.id ASC, parking_slot_level ASC
         ")
     end
 end

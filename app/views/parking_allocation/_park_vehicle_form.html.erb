@@ -20,7 +20,7 @@
 
                     <div class="form-group mb-3">
                         <label class="form-label" for="parent_id">Parking Entrance (Entry Point)</label><span class="text-danger b">*</span>
-                        <%=  select "parking_allocation", :parking_entry_point,  grouped_options_for_select( [['Select an Entry Point', @active_parking_entry_points.collect {|v| [ "Entry #{v.id} (#{v.cardinal_direction.capitalize})", v.id ] } ]], selected: params[:parking_entry_point]), {prompt: 'Select an Entry Point'},  class: "form-control select2-tag", id: "parking_entry_point" %>
+                        <%=  select "parking_allocation", :parking_entry_point,  grouped_options_for_select( [['Select an Entry Point', @parking_entry_points.collect {|v| [ "Entry #{v.id}", v.id ] } ]], selected: params[:parking_entry_point]), {prompt: 'Select an Entry Point'},  class: "form-control select2-tag", id: "parking_entry_point" %>
                     </div>
                 </div>
 
