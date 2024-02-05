@@ -1,0 +1,27 @@
+<%= form_with model: ParkingEntryPoint.new, url: create_entry_point_path, id: "create_entry_point_form", local: true, html: { autocomplete: "off" } do |f| %>
+
+    <div class="modal fade" id="create_entry_point_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" aria-hidden="true">
+            <div class="modal-content">
+
+                <div class="modal-header justify-content-between">
+                    <h1 class="modal-title fs-5">Confirm</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <h1 class="fs-5 fw-normal">Add Entry Point?</h1>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div>
+                        <button type="button" class="btn cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="submit_btn" >Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<%end%>

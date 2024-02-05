@@ -4,7 +4,7 @@ toastr.options.newestOnTop = true;
 toastr.options.preventDuplicates = true;
 
 
-<%unless @parking_allocation.errors.any?%>
+<%unless @allocation.errors.any?%>
     $('#new_park_vehicle_modal').modal('hide');
     $('#new_unpark_vehicle_modal').modal('hide');
     
@@ -16,7 +16,7 @@ toastr.options.preventDuplicates = true;
       },1500);
           
 <%else%>
-  <%@parking_allocation.errors.full_messages.each do |message|%>
+  <%@allocation.errors.full_messages.each do |message|%>
     toastr.error('<%=message %>', 'Error')
   <%end%>
 

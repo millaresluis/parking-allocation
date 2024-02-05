@@ -1,61 +1,56 @@
 <div>
-    <div class="d-flex justify-content-end mb-2 mx-3 mt-5" role="group">
-        <div class="me-2">
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#update_entry_point_modal" id="">
-                Set Entry Points
-            </button>
+
+    <div class="d-flex justify-content-between align-items-end mb-2 mx-5 my-3">
+        <%# Vehicle Status %>
+        <div class="col-9 d-flex">
+            <%if @assigned_vehicles.present?%>
+                <div class="col-4 px-0">
+                    <div class="me-2"><span class="fw-bold">Pre-Assigned Vehicles (<%=@assigned_vehicles.count%>):</span></div> 
+                    <div class="">
+                        <% @assigned_vehicles.each do |uv| %>
+                            <button type="button" class="btn btn-secondary mb-1" id="new_park_vehicle_btn" data-bs-toggle="modal" data-bs-target="#new_park_vehicle_modal" data-modal-title="Plate Number: <%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%= uv.vehicle_type %>" data-text-vehicle-type="<%=set_vehicle_type(uv.vehicle_type)%>">
+                                <%= uv.plate_number_id %>
+                            </button>
+                        <%end%>
+                    </div>
+                </div>
+            <%end%>
+
+            <%if @parked_vehicles.present?%>
+                <div class="col-4 px-0">
+                    <div class="me-2"><span class="fw-bold">Parked Vehicles (<%=@parked_vehicles.count%>):</span></div> 
+                    <div class="">
+                        <% @parked_vehicles.each do |uv| %>
+                            <span class="badge bg-dark"><%= uv.plate_number_id %></span>
+                        <%end%>
+                    </div>
+                </div>
+            <%end%>
+
+            
+            <%if @exiting_vehicles.present?%>
+                <div class="col-4 px-0">
+                    <div class="me-2"><span class="fw-bold">Exiting Vehicles:</span></div> 
+                    <div class="">
+                        <% @exiting_vehicles.each do |uv| %>
+                            <button type="button" class="btn btn-warning mb-1" id="exiting_vehicle_btn" data-bs-toggle="modal" data-bs-target="#return_vehicle_modal" data-plate-number="<%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=uv.vehicle_type%>" data-vehicle-type-text="<%=set_vehicle_type(uv.vehicle_type)%>" data-parking-slot-id="<%= uv.parking_slot_id %>" data-parking-entry-point="<%=uv.parking_entry_point%>"  data-parking-slot-type="<%= uv.parking_slot_level %>" data-parking-slot-type-text="<%= set_parking_slot_type(uv.parking_slot_level) %>" data-datetime-in="<%= uv.datetime_in %>" data-datetime-out="<%= DateTime.now.strftime("%Y-%m-%d %H:%M:%S") %>" data-datetime-in-text="<%= set_datetime_format(uv.datetime_in) %>" data-datetime-out-text="<%= set_datetime_format(DateTime.now) %>">
+                                <%= uv.plate_number_id %>
+                            </button>
+                        <%end%>
+                    </div>
+                </div>
+            <%end%>
         </div>
 
-        <div>
-            <button type="button" class="btn btn-primary <%= @total_vehicles.count == @parking_slots.count ? "disabled" : "" %>" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
+        <div class="col-3 text-end">
+            <button type="button" class="btn btn-primary <%= @total_vehicles.count >= @parking_slots.count ? "disabled" : "" %>" data-bs-toggle="modal" data-bs-target="#new_vehicle_modal" id="new_vehicle_btn">
                 Add New Vehicle
             </button>
         </div>
     </div>
-    
+
     <%# Parking lot layout %>
     <%= render partial: "parking_lot_layout" %>
-
-    <%# Vehicle Status %>
-    <div class="row col-12">
-        <%if @assigned_vehicles.present?%>
-            <div class="col-4">
-                <div class="me-2"><span class="fw-bold">Pre-Assigned Vehicles (<%=@assigned_vehicles.count%>):</span></div> 
-                <div class="">
-                    <% @assigned_vehicles.each do |uv| %>
-                        <button type="button" class="btn btn-secondary mb-1" id="new_park_vehicle_btn" data-bs-toggle="modal" data-bs-target="#new_park_vehicle_modal" data-modal-title="Plate Number: <%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%= uv.vehicle_type %>" data-text-vehicle-type="<%=set_vehicle_type(uv.vehicle_type)%>">
-                            <%= uv.plate_number_id %>
-                        </button>
-                    <%end%>
-                </div>
-            </div>
-        <%end%>
-
-        <%if @parked_vehicles.present?%>
-            <div class="col-4">
-                <div class="me-2"><span class="fw-bold">Parked Vehicles (<%=@parked_vehicles.count%>):</span></div> 
-                <div class="">
-                    <% @parked_vehicles.each do |uv| %>
-                        <span class="badge bg-dark"><%= uv.plate_number_id %></span>
-                    <%end%>
-                </div>
-            </div>
-        <%end%>
-
-        
-        <%if @exiting_vehicles.present?%>
-            <div class="col-4">
-                <div class="me-2"><span class="fw-bold">Exiting Vehicles:</span></div> 
-                <div class="">
-                    <% @exiting_vehicles.each do |uv| %>
-                        <button type="button" class="btn btn-warning mb-1" id="exiting_vehicle_btn" data-bs-toggle="modal" data-bs-target="#return_vehicle_modal" data-plate-number="<%= uv.plate_number_id %>" data-vehicle-id="<%=uv.id%>" data-vehicle-type="<%=uv.vehicle_type%>" data-vehicle-type-text="<%=set_vehicle_type(uv.vehicle_type)%>" data-parking-slot-id="<%= uv.parking_slot_id %>" data-parking-entry-point="<%=uv.parking_entry_point%>"  data-parking-slot-type="<%= uv.parking_slot_level %>" data-parking-slot-type-text="<%= set_parking_slot_type(uv.parking_slot_level) %>" data-datetime-in="<%= uv.datetime_in %>" data-datetime-out="<%= DateTime.now.strftime("%Y-%m-%d %H:%M:%S") %>" data-datetime-in-text="<%= set_datetime_format(uv.datetime_in) %>" data-datetime-out-text="<%= set_datetime_format(DateTime.now) %>">
-                            <%= uv.plate_number_id %>
-                        </button>
-                    <%end%>
-                </div>
-            </div>
-        <%end%>
-    </div>
 
     <%# Forms %>
     <%= render partial: "vehicle/create_vehicle" %>
@@ -63,6 +58,7 @@
     <%= render partial: "exit_vehicle_form" %>
     <%= render partial: "return_vehicle_form" %>
     <%= render partial: "unpark_vehicle_form" %>
-    <%= render partial: "parking_entry_point/entry_point_form" %>
+    <%= render partial: "parking_entry_point/create_entry_point_form" %>
+    <%= render partial: "parking_entry_point/update_entry_point_form" %>
 
 </div>

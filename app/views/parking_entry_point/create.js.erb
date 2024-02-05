@@ -1,0 +1,22 @@
+toastr.options.closeButton = true;
+toastr.options.timeOut = 9000;
+toastr.options.newestOnTop = true;
+toastr.options.preventDuplicates = true;
+
+
+<%unless @parking_entry_point.errors.any?%>
+    $('#create_entry_point_modal').modal('hide');
+
+    toastr.success('Successfully saved!', 'Message')
+    setTimeout(function(){
+        toastr.clear();
+        Turbolinks.clearCache();
+        Turbolinks.visit("<%=parking_allocation_path()%>");
+      },1500);
+          
+<%else%>
+  <%@parking_entry_point.errors.full_messages.each do |message|%>
+    toastr.error('<%= message %>', 'Error')
+  <%end%>
+
+<%end%>

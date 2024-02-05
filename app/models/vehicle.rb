@@ -16,4 +16,17 @@ class Vehicle < ApplicationRecord
                 v.vehicle_status = 'exiting' AND v.status = 'active' AND pa.status = 'active'
         ")
     end
+
+    def self.handle_assigned_vehicle(vehicle_id, vehicle_type, parking_entry_point)
+        available_slot = ParkingSlot.find_available_parking_slot(vehicle_type, parking_entry_point)
+        vehicle_checker = ParkingAllocation.where(vehicle_id: vehicle_id, status: 'active').first
+        vehicle = self.set_vehicle(vehicle_id)
+        parking_allocation = ParkingAllocation.set_parking_allocation(vehicle_id).first
+
+        return available_slot, vehicle_checker, vehicle, parking_allocation
+    end
+
+    def self.set_vehicle(vehicle_id)
+        self.find_by(id: vehicle_id, status: 'active')
+    end
 end
