@@ -38,6 +38,6 @@ Set the right credentials of your MySQL server in the `config/database.yml` file
 5. Save changes.
 
 ## Updates
-1. Introduced a new parking layout design and improved parking slot auto-assign function.
+1. Introduced a new parking layout design and improved parking slot auto-assign function. (Please download the new exported schema here: https://drive.google.com/file/d/1YCuOBgKfRFIJRlzK8rLaQGr5Jyo8HXPM/view?usp=sharing)
 2. Refactored code in controllers & models (transferred all the logic and data handling in their corresponding model).
 3. Dynamic entry points.
