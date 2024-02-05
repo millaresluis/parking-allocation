@@ -36,3 +36,8 @@ Set the right credentials of your MySQL server in the `config/database.yml` file
 3. Locate the `default` and `development` section within the file. 
 4. Update the `username` and `password` fields with your MySQL server credentials. 
 5. Save changes.
+
+## Updates
+1. Introduced a new parking layout design and improved parking slot auto-assign function.
+2. Refactored code in controllers & models (transferred all the logic and data handling in their corresponding model).
+3. Dynamic entry points.
