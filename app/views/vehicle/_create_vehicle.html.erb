@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="form-group mb-3">
                         <label class="form-label" for="parent_id">Vehicle Type</label> <span class="text-danger b">*</span>
-                        <%= f.select :vehicle_type, @vehicle_type, {}, class: "form-select select2-tag", placeholder: "Select a Vehicle Type", id: "vehicle_type" %>
+                        <%= f.select :vehicle_type, [["Select a Vehicle Type", ""], ["SP", "1"], ["MP", "2"], ["LP", "3"]], {}, class: "form-select select2-tag", placeholder: "Select a Vehicle Type", id: "vehicle_type" %>
                     </div>
 
                     <div class="form-group mb-3">

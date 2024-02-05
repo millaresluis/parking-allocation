@@ -51,18 +51,7 @@ module ApplicationHelper
 
         return total_charge
 
-    end
-
-    def parking_slot_border(id)
-        case id
-        when 1..6
-          "border-bottom-0 mb-5"
-        when 7..12
-          "border-top-0 border-bottom-0 mb-5"
-        else
-          "border-top-0"
-        end
-    end      
+    end    
 
     def parking_slot_badge_status(status)
 
@@ -84,6 +73,14 @@ module ApplicationHelper
         else
             "FIELD(parking_slot_level, 3, 1, 2)"
         end
+    end
+
+    def params_active(controller, action, default_class=nil, active_class)
+        if action.include?(params[:action]) && controller.include?(params[:controller])
+            return active_class
+        else
+            return default_class    
+        end     
     end
 
 end

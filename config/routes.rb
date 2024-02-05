@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   match 'parking-allocation/update',  to: 'parking_allocation#update', via: [:patch, :post], as: :update_parking_allocation
 
   # Parking Entry Point
+  post 'parking-entry-point/create',  to: 'parking_entry_point#create', as: :create_entry_point
   match 'parking-entry-point/update',  to: 'parking_entry_point#update', via: [:patch, :post], as: :update_entry_point
 
   # Vehicle

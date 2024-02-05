@@ -6,11 +6,10 @@ class ParkingAllocationController < ApplicationController
         @title = "Parking Allocation"
         @parking_slots = ParkingSlot.get_parking_slots()
         @parking_entry_points = ParkingEntryPoint.where(status: 'active')
-        @total_vehicles = Vehicle.where(status: 'active')
-        @assigned_vehicles = Vehicle.where(vehicle_status: 'assigned', status: 'active')
+        @total_vehicles = Vehicle.where(vehicle_status: ['assigned', 'parked', 'exiting'],status: 'active')
+        @assigned_vehicles = Vehicle.where(vehicle_status: 'assigned', status: 'active').order(vehicle_type: "ASC")
         @parked_vehicles = Vehicle.where(vehicle_status: 'parked', status: 'active')
         @exiting_vehicles = Vehicle.get_exiting_vehicles()
-        @vehicle_type = [["Select a Vehicle Type", ""], ["SP", "1"], ["MP", "2"], ["LP", "3"]]
     end
 
     def create
