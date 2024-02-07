@@ -1,4 +1,5 @@
 
+
 # README
 
 ## Requirements
@@ -20,22 +21,29 @@ Before running the application, you need to set up the MySQL database using the 
 6. Choose the folder that contains the downloaded sql files (`files.sql`)
 7. Start import.
 
-## Installation 
-```bash
-$ git clone https://github.com/millaresluis/parking-allocation-system.git
-$ cd parking-allocation-system
-$ gem install bundler -v 2.2.3
-$ bundle install
-$ rails s (please read note before running the server)
-```
-## Note
+## Rails Database Setup
 Set the right credentials of your MySQL server in the `config/database.yml` file before running the application. 
 ### Steps to Update Database Credentials 
-1. Navigate to the `config` directory. 
-2. Open the `database.yml` file. 
-3. Locate the `default` and `development` section within the file. 
-4. Update the `username` and `password` fields with your MySQL server credentials. 
-5. Save changes.
+1. Clone the app.
+2. Navigate to the `config` directory. 
+3. Open the `database.yml` file. 
+4. Locate the `default` and `development` section within the file. 
+5. Update the `username` and `password` fields with your MySQL server credentials. 
+6. Save changes.
+
+## Installation 
+```bash
+$ cd parking-allocation-system
+```
+```bash
+$ gem install bundler -v 2.2.3
+```
+```bash
+$ bundle install
+```
+```bash
+$ rails s
+```
 
 ## Updates
 1. Introduced a new parking layout design and improved parking slot auto-assign function. (Please download the new exported schema here: https://drive.google.com/file/d/1YCuOBgKfRFIJRlzK8rLaQGr5Jyo8HXPM/view?usp=sharing)
